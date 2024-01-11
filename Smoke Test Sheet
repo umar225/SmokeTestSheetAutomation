@@ -1,0 +1,33 @@
+\documentclass{article}
+\usepackage{spreadtab}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{enumitem}
+
+\geometry{a4paper, margin=1in}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue,
+  filecolor=magenta,
+  urlcolor=cyan,
+}
+
+\begin{document}
+
+\section*{Smoke Test Sheet}
+\begin{spreadtab}{{tabular}{ccccccccccc}}
+\toprule
+@{Test Id} & @{Test Area} & @{Test Intention} & @{Test Steps} & @{Automatable?} & @{Automated Status} & @{Jira Id} & @{Expected Result} & @{Actual Result} & @{Status} & @{Tag} \\
+\midrule
+1 & Registration & Verify that as a user I want to register so that I can become a registered Boardwise user & "Given I'm a user When I try to register Then I become a registered user" & Y & Done & \url{https://wearenova.jira.com/browse/BRD-480} & User should be able to signup And also checks each field form validations & As Expected & PASS & UI/API \\
+2 & Email Verification & "Once the user submits the registration form Then the user should be able to verify its email address" & "Given I'm a user When I try to register And when I submit the registration form Then I can verify my email address" & N &  & \url{https://wearenova.jira.com/browse/BRD-480} & User should be able to register to become a registered user and able to verify the email address & As Expected & PASS & UI/API \\
+3 & Login Success & Verify that a registered user can log in successfully & "Given I'm a registered user When I try to log in Then I am able to Log in" & Y & Done & \url{https://wearenova.jira.com/browse/BRD-481} & User should be able to log in with valid credentials & As Expected & PASS & UI/API \\
+4 & Login Failure & Verify that a registered user cannot log in & "Given I'm a registered user When I try to log in And I give invalid credentials Then I cannot log in" & Y & Done & \url{https://wearenova.jira.com/browse/BRD-481} & User should not be able to log in with invalid credentials & As Expected & PASS & UI/API \\
+5 & Logout & "Verify as a Boardwise user I want to log out So I can log out successfully" & "Given I'm a logged-in user And I want to log out When I click the logout link from the profile dropdown Then it should log me out from Boardwise" & Y & Done & \url{https://wearenova.jira.com/browse/BRD-481} & User should be able to Logout & As Expected & PASS & UI/API \\
+6 & Forgot Password & Verify that the user can reset the password & "Given I want to reset the password When I click on the forgot password Then I am able to reset the password" & Y & Done & \url{https://wearenova.jira.com/browse/BRD-482} & User should be able to reset the password & As Expected & PASS & UI/API \\
+7 & Dashboard & Verify that the user can see the Dashboard page & "Given I log in to my account When I am on the dashboard page Then I am shown the updated dashboard sections" & Y & Done & \url{https://wearenova.jira.com/browse/BRD-463} & User should be able to see the updated dashboard section & As Expected & PASS & UI/API \\
+% ... (continue for the remaining test cases)
+\bottomrule
+\end{spreadtab}
+
+\end{document}
