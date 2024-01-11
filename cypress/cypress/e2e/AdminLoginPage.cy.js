@@ -26,4 +26,5 @@ describe.only('AdminLogin', () => {
         cy.get('.loginBtn').click()
         cy.get('.login-modal')
       })
+      //test
 })
