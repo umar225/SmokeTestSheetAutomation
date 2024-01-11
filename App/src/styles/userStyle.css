@@ -1,0 +1,2192 @@
+/******* Side Bar Style Start******/
+.sideBarWrapper {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    background: #F5F8F7;
+    top: 50px;
+    box-shadow: 0px 0px 6px #0000005A;
+    z-index: 1;
+    justify-content: space-between;
+    height: 95%;
+
+}
+
+.smallSideBar {
+    width: 50px;
+}
+
+.bigSideBar {
+    width: 255px;
+}
+
+.profileUl {
+    padding: 0px;
+    display: flex;
+    flex-direction: column;
+}
+
+.profileUl a:hover {
+    background-color: #DFEAE8;
+    cursor: pointer;
+}
+
+.profileUl li {
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+    border-bottom: 1px solid #00000029;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    align-items: center;
+}
+
+.profileLiOpen {
+    justify-content: flex-start;
+    padding-left: 16px;
+}
+
+.profileLiClose {
+    justify-content: center;
+}
+
+.profileLiCloseMenu {
+    border-bottom: 0px !important;
+}
+
+.profileUl li svg {
+    font-size: 20px;
+    color: #08084C;
+}
+
+.smallSideBar .profileUl li span {
+    display: none;
+}
+
+.bigSideBar .profileUl li span {
+    display: flex;
+}
+
+.profileUl li span {
+    color: #08084C;
+    font-size: 12px;
+    line-height: 18px;
+    font-family: 'Open Sans', sans-serif;
+    margin-left: 15px;
+}
+
+.openProfileMenu {
+    justify-content: flex-end;
+    border-bottom: 0px !important;
+    margin-right: 10px;
+    padding-bottom: 16px !important;
+}
+
+.openProfileMenu svg {
+    font-size: 18px;
+}
+
+.lastIconMenu {
+    border-bottom: 0px !important;
+}
+
+.menuLogout {
+    display: flex;
+    padding: 0px;
+    flex-direction: column;
+}
+
+.menuLogout a:hover {
+    background-color: #DFEAE8;
+    cursor: pointer;
+}
+
+.menuLogout li {
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    align-items: center;
+}
+
+.menuLogout li svg {
+    font-size: 20px;
+    color: #08084C;
+}
+
+.smallSideBar .menuLogout li span {
+    display: none;
+}
+
+.bigSideBar .menuLogout li span {
+    display: flex;
+}
+
+.menuLogout li span {
+    color: #08084C;
+    font-size: 12px;
+    line-height: 18px;
+    font-family: 'Open Sans', sans-serif;
+    margin-left: 15px;
+}
+
+.signOutIcon li svg {
+    font-size: 20px;
+    transform: rotate(180deg);
+}
+
+.signOutIcon li {
+    border-bottom: 0px !important;
+}
+
+.cursorStyle {
+    cursor: pointer;
+}
+
+.selectedItem {
+    background-color: #DFEAE8;
+}
+
+/******* Side Bar Style End******/
+/******* Side Filter Style Start******/
+.filterWrapper {
+    display: flex;
+}
+
+.filterWidthWrapper {
+    width: 250px;
+    margin-right: 3px;
+}
+
+.filterHeader {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding-right: 15px;
+    margin-bottom: 20px;
+}
+
+.filterHeader .filterText {
+    font-family: 'Sofia Pro Bold', sans-serif;
+    font-size: 16px;
+    line-height: 18px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: var(--green-bg);
+
+}
+
+.filterClearTxt {
+    font-size: 14px;
+    font-family: 'Open Sans', sans-serif;
+    cursor: pointer;
+    font-weight: bold;
+    font-weight: 700;
+    color: #1B76A9;
+    align-items: center;
+    display: flex;
+    background-color: transparent;
+    border: none;
+}
+
+.filterAccordionWrapper {
+    display: flex;
+    height: 100vh;
+}
+
+.filterAccordionWrapper .accordion {
+    width: 100%;
+}
+
+.filterAccordionWrapper .accordion .accordion-body {
+    padding: 0px;
+}
+
+.filterAccordionWrapper .accordion .accordion-body .filterOptionVal {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-right: 20px;
+    margin: 5px 0;
+}
+
+.filterOptionVal .checkBoxMargin {
+    margin-right: 0px;
+}
+
+.filterOptionVal .checkBoxMargin label {
+    color: #0F2B18;
+    font-size: 14px;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.filterOptionVal .checkBoxMargin input {
+    margin-top: 5px;
+    border-color: #3C7C5066;
+}
+
+.filterOptionVal span {
+    display: flex;
+    color: #0F2B1866;
+    font-size: 14px;
+    font-family: 'Open Sans', sans-serif;
+    align-self: center;
+}
+
+.filterAccordionWrapper .accordion .accordion-item {
+    border: 0px;
+}
+
+.filterAccordionWrapper .accordion .accordion-button {
+    padding-left: 0;
+    color: var(--green-bg);
+    font-size: 16px;
+    line-height: 18px;
+    font-family: 'Sofia Pro Bold', sans-serif;
+}
+
+.filterAccordionWrapper .accordion .accordion-button:not(.collapsed) {
+    color: var(--green-bg);
+    font-size: 16px;
+    line-height: 18px;
+    font-family: 'Sofia Pro Bold', sans-serif;
+    background: transparent;
+    box-shadow: none;
+}
+
+.filterAccordionWrapper .accordion .accordion-button:focus {
+    border-color: transparent;
+    box-shadow: none;
+    color: var(--green-bg);
+    font-size: 16px;
+    line-height: 18px;
+    font-family: 'Sofia Pro Bold', sans-serif;
+}
+
+.filterAccordionWrapper .accordion-button:not(.collapsed):after {
+    background-image: url(../utils/images/Polygon3.png);
+    top: 21px;
+    background-size: 11px;
+    right: 15px;
+}
+
+.filterAccordionWrapper .accordion-button:after {
+    background-image: url(../utils/images/Polygon4.png);
+    top: 21px;
+    background-size: 11px;
+    right: 15px;
+}
+
+.filterAccordionWrapper .seprateLine {
+    border: 0.5px solid #08084C;
+    display: flex;
+    flex-direction: row;
+    margin: 0;
+    width: 169px;
+    opacity: 0.1;
+}
+
+.displayAllFilterVal {
+    display: flex;
+    width: 100%;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.displayAllFilterVal .displayCategory {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+}
+
+.displayItem  {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    margin: 2px 5px 2px 0;
+    padding: 6px 12px 6px 12px;
+    border-radius: 50px;
+    background-color: #FFCC00;
+    align-items: center;
+}
+.displayItem button {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+}
+
+.displayItem span {
+    font-size: 14px;
+    line-height: 20px;
+    color: #0F2B18;
+}
+
+.displayItem img {
+    margin-left: 5px;
+    object-fit: contain;
+    height: 10px;
+    width: 10px;
+}
+
+.filterToggleBtnWrapper {
+    display: none;
+}
+
+.applyBtnFilterWrapper {
+    display: none;
+}
+
+/******* Side Filter Style End******/
+.userHeaderWrapper {
+    background-color: var(--green-bg);
+    position: fixed;
+    width: 100%;
+    height: 64px;
+    top: 0;
+    z-index: 1;
+}
+
+.userHeaderWrapper .headerWrapperInner {
+    padding: 0 10px;
+    font-family: 'Sofia Pro', sans-serif;
+    font-weight: 700;
+    height: 100%;
+}
+
+.userHeaderWrapper .headerWrapperInner .navbar-brand img {
+    max-height: 40px;
+    max-width: 200px;
+}
+
+.userHeaderWrapper .nav-link {
+    color: #fff !important;
+}
+
+.userHeaderWrapper .navbar-collapse {
+    align-self: center;
+}
+
+.headerIconBG {
+    display: flex;
+    background: #1D1E5C;
+    border-radius: 100px;
+    align-items: center;
+    width: 35px;
+    height: 35px;
+    justify-content: center;
+}
+
+.headerIconBG svg {
+    font-size: 22px;
+}
+
+.avatarDDWraper {
+    padding-left: 8px;
+    display: flex;
+    padding-right: 8px;
+    border-radius: 100px;
+    line-height: 15px;
+    height: 100%;
+    align-items: center;
+}
+
+.avatarDDWraper img {
+    width: 22px;
+    height: 22px;
+    align-self: center;
+    border-radius: 100px;
+}
+
+.resProfile {
+    display: none;
+}
+
+.resHamburg {
+    display: none;
+}
+
+.userMargin {
+    margin-top: 64px;
+    padding-bottom: 15px;
+    background-color: #FBFBFB;
+}
+
+.resourceContainer {
+    padding-top: 100px;
+    max-width: 1280px;
+    width: 80%;
+}
+
+.videoResDiv {
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    padding-top: 100px;
+}
+
+.containerWrapper {
+    padding: 20px;
+    max-width: 1280px;
+}
+
+.customMargin {
+    margin: 0 7px;
+}
+
+.profileDD {
+    align-items: center;
+    display: flex;
+}
+
+.profileDD .dropdown-toggle .nav-link {
+    padding: 0;
+    padding-left: 10px;
+}
+
+.navbar-nav .dropdown-menu {
+    position: absolute;
+}
+
+.dropdown-menu[data-bs-popper] {
+    right: 0;
+    left: auto;
+    border-radius: 12px;
+}
+
+.dropdown-item {
+    display: flex;
+}
+
+.profileDD a {
+    font-family: 'Sofia Pro', sans-serif;
+    font-weight: 600;
+    height: 30px;
+    align-items: center;
+}
+
+.profileDD a:hover {
+    background-color: #3C7C5033;
+}
+
+.profileDD .dropdown-toggle::after {
+    margin-left: 1.255em;
+}
+
+/* Hassan section */
+html {
+    --user-white-bg: #ffffff;
+    --green-bg: #0F2B18;
+    --jobs-header: #3C7C50;
+}
+
+.userMainWrapper {
+    background-color: var(--user-white-bg);
+}
+
+.jobSection {
+    width: 988px;
+    display: flex;
+    flex-direction: column;
+}
+
+.jobsBoardDisplay,
+.resourceBoardDisplay {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+    flex-wrap: wrap;
+    width: 100%;
+    padding-bottom: 10px;
+}
+
+.sortRow {
+    display: flex;
+}
+
+.jobsBoardDisplay img {
+    width: 40px;
+    height: 40px;
+    margin-top: 0.2rem;
+    object-fit: contain;
+}
+
+.jobCard {
+    max-width: 484px;
+    width: 49%;
+    height: 152px;
+    box-shadow: 0px 3px 6px #00000029;
+    border: 1px solid #ECECEC;
+    border-radius: 6px;
+    opacity: 1;
+    cursor: pointer;
+}
+
+.jobCardBody p {
+    letter-spacing: 0px;
+}
+
+.jobCardHeader {
+    display: flex;
+    justify-content: space-between;
+}
+
+.jobCardTags {
+    display: flex;
+}
+
+.jobCardLocation {
+    background-color: #3C7C501A;
+    height: 20px;
+    width: 66px;
+    display: block;
+    border-radius: 4px;
+}
+
+.jobCardLocationText {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    padding-left: 2px;
+}
+
+.appliedJob {
+    background-color: #FFCC00;
+    margin-right: 10px;
+}
+
+.jobCardTextColor {
+    color: #3C7C50;
+}
+
+.jobHeader {
+    display: flex;
+    flex-direction: row;
+}
+
+.jobHeaderText {
+    display: flex;
+    flex-direction: column;
+    padding-left: 10px;
+    height: 50px;
+    font-size: 12px;
+}
+
+.jobHeaderText p {
+    line-height: 0.1rem;
+}
+
+.jobHeaderCompanyText {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    line-height: 18px;
+    padding: 0;
+    text-align: left;
+}
+
+.jobCardHeaderCompany {
+    font-family: 'Sofia Pro Bold', sans-serif;
+    font-size: 12px;
+    line-height: 18px;
+    color: #3C7C50;
+}
+
+.jobCardTitleText {
+    color: #3C7C50;
+    font-family: 'Sofia Pro Bold', sans-serif;
+    font-size: 16px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.jobCardHeaderCompany .blurredName {
+    filter: blur(4px);
+    opacity: 70%;
+}
+
+.longText {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    display: block;
+    width: 180px;
+}
+
+.jobHeaderIndustryAndSkillText {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    font-size: 12px;
+    line-height: 18px;
+    color: #0F2B1899;
+}
+
+.jobTitleText {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+    line-height: 20px;
+    font-weight: 600;
+    margin-bottom: 5px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+}
+
+.previewTextCard {
+    font-size: 14px;
+    font-family: "Sofia Pro", sans-serif;
+    margin-bottom: auto;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.jobText {
+    -webkit-line-clamp: 1;
+}
+
+.resourceText {
+    -webkit-line-clamp: 3;
+}
+
+.resourceCardFooter {
+    display: flex;
+    justify-content: space-between;
+}
+
+.resourceCardHeader {
+    display: flex;
+    flex-direction: column;
+}
+
+.jobSmallImageContainer {
+    min-width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 5px;
+    font-size: 10px;
+}
+
+.jobDetailImg {
+    border-radius: 50%;
+    background-color: #3C7C501A;
+}
+
+.jobTagLineHeight {
+    height: 50px;
+    padding: 5px;
+}
+
+.jobFlexRow {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+
+.jobPaddingRight5 {
+    padding-right: 5px;
+}
+
+.jobMarginLeft6 {
+    margin-left: 6px;
+}
+
+.jobFooter {
+    position: absolute;
+    bottom: 7px;
+}
+
+.jobAndFiltersWrapper {
+    display: flex;
+    flex-direction: row;
+    margin: 30px 0;
+}
+
+.jobBoardHeading {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 26px;
+    font-weight: 800;
+    line-height: 25px;
+    letter-spacing: 0px;
+    color: var(--green-bg);
+    opacity: 1;
+    padding-top: 25px;
+}
+
+.jobDetailHeading {
+    font-family: 'Sofia Pro Bold', sans-serif;
+    font-size: 26px;
+    line-height: 30px;
+    opacity: 1;
+    margin-bottom: 15px;
+}
+
+.jobDetailSubHeading {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+    line-height: 25.6px;
+}
+
+.applyButtonStyle {
+    background-color: var(--green-bg);
+    border-radius: 100px;
+    padding: 10px 30px;
+    border: 0px;
+    color: #fff;
+    font-family: 'Sofia Pro Bold', sans-serif;
+    font-weight: 700;
+}
+
+.jobDetailApplied {
+    background-color: #FFCC00;
+    border-radius: 4px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 106px;
+    margin-top: 40px;
+}
+
+.jobDetailApplied span {
+    margin-left: 7px;
+}
+
+.jobDetailsImgSection .applyButtonStyle {
+    margin-top: 40px;
+}
+
+.noOfJobMainWrapper {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.resourceCardBody {
+    padding: 0;
+}
+
+.resourceCardBody div {
+    display: flex;
+    justify-content: space-between;
+}
+
+.resourceCardBody img {
+    width: 152px;
+    height: 152px;
+    border-radius: 6px 0px 0px 6px;
+    object-fit: cover;
+}
+
+.resourceCardData {
+    margin: 25px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.card-text:last-child {
+    margin-bottom: 10px;
+}
+
+.noOfJobOneColumn {
+    display: flex;
+    min-width: 194px;
+}
+
+.totalNoOfRoleText {
+    min-width: fit-content;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+    line-height: 22px;
+    font-weight: 600;
+    letter-spacing: 0px;
+    color: #090715;
+    opacity: 1;
+    display: flex;
+    align-items: center;
+}
+
+.sortMainWrapper {
+    display: flex;
+    flex-direction: row;
+    gap: 12px
+}
+
+.jobCategoryContainer {
+    display: flex;
+    flex-direction: row;
+    width: 230px;
+    height: 40px;
+    /* UI Properties */
+    background: #3C7C501A 0% 0% no-repeat padding-box;
+    border-radius: 20px;
+    opacity: 1;
+}
+.adminCategory {
+    width: auto;
+}
+
+.jobCategoryContainer label {
+    width: 83px;
+    border-radius: 20px;
+    text-align: center;
+    font-family: 'Sofia Pro', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 40px;
+    letter-spacing: 0px;
+    color: #0F2B18;
+    cursor: pointer;
+}
+.adminCategory label {
+    width: auto;
+    padding: 0 20px;
+    cursor: pointer;
+}
+
+.jobCategoryContainer input {
+    position: absolute;
+    clip: rect(0, 0, 0, 0);
+    pointer-events: none;
+}
+
+.jobCategoryContainer #radio-all {
+    width: 50px !important;
+}
+
+.jobCategoryContainer input:checked+label {
+    background: var(--green-bg) 0% 0% no-repeat padding-box;
+    color: white;
+    border-radius: 20px;
+}
+
+.dashboardSection .jobsBoardDisplay,
+    .resourceBoardDisplay {
+        justify-content: start;
+        margin-left: 30px
+    }
+
+.searchBar {
+    width: 100%;
+    margin: 0 20px;
+    height: 40px;
+    padding: 8px 16px 8px 16px;
+    border-radius: 60px;
+    gap: 16px;
+    background-color: #3C7C501A;
+    color: var(--green-bg);
+}
+
+.searchBar input {
+    all: unset;
+    width: 90%;
+}
+
+.searchBar input::placeholder {
+    color: #0F2B18;
+}
+
+.searchBar svg {
+    color: var(--green-bg);
+    margin-right: 10px;
+}
+
+.categorySortMobile {
+    margin: 20px 0;
+}
+
+.categorySortMobile .sortRow,
+.categorySortMobile .jobCategoryContainer,
+.categorySortMobile .jobCategoryContainer label {
+    width: 100%;
+}
+
+/* End hassan section */
+
+@media only screen and (max-width: 600px) {
+    .containerWrapper {
+        padding: 0px;
+    }
+    .dashboardSection .jobsBoardDisplay, .resourceBoardDisplay {
+        margin-left: 0px;
+    }
+    .filterOptionVal .checkBoxMargin label {
+        width: auto !important;
+    }
+
+    /******* Side Bar Style Start******/
+    .sideBarWrapper {
+        top: 0;
+        z-index: 2;
+        height: 100%;
+        overflow: scroll;
+    }
+
+    .isMobile {
+        display: none;
+    }
+
+    .opacityBGMobile {
+        background: rgba(0, 0, 0, 0.6);
+        width: 100%;
+        height: 100vh;
+        position: fixed;
+        z-index: 2;
+        top: 0;
+    }
+
+    /******* Side Bar Style End******/
+    /******* Side Filter Style Start******/
+    .filterWrapper {
+        display: none;
+        left: 0;
+    }
+
+    .filterWidthWrapper {
+        width: 100% !important;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        height: 92vh;
+        margin-right: 10px;
+    }
+
+    .categorySortMain {
+        display: none;
+    }
+
+    .mobileFilterWrapper {
+        background: white;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        z-index: 2;
+        top: 0;
+        display: flex;
+        padding: 20px;
+    }
+
+    .filterAccordionWrapper {
+        margin-top: 10px;
+        height: 65vh;
+    }
+
+    .filterAccordionWrapper .accordion .accordion-button {
+        width: 100%;
+        padding-right: 0px;
+    }
+
+    .filterAccordionWrapper .accordion-button:after {
+        right: 0px;
+    }
+
+    .filterAccordionWrapper .accordion-button:not(.collapsed):after {
+        right: 0px;
+    }
+
+    .filterAccordionWrapper .seprateLine {
+        width: 100%;
+    }
+
+    .filterHeader {
+        width: 100%;
+        padding-right: 0;
+    }
+
+    .seprateLineSpecific {
+        width: 100%;
+        border: 0.5px solid #08084C;
+        display: flex;
+        flex-direction: row;
+        margin: 0;
+        opacity: 0.1;
+    }
+
+    .jobDetailContainer {
+        flex-direction: column;
+    }
+
+    .displayAllFilterVal {
+        padding: 10px 0;
+    }
+
+    .filterToggleBtnWrapper {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+    }
+
+    .searchBar {
+        margin: 0;
+    }
+
+    .filterToggleBtnWrapper .filterToggleBtn {
+        background-color: transparent;
+        border: 0px;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        color: #1B76A9;
+    }
+
+    .filterToggleBtnWrapper .filterToggleBtn span {
+        font-family: "Open Sans", sans-serif;
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px;
+        letter-spacing: 0.04em;
+        text-align: left;
+    }
+
+    .filterToggleBtnWrapper .filterToggleBtn svg {
+        margin-right: 2px;
+        font-size: 16px;
+    }
+
+    .applyBtnFilterWrapper {
+        display: flex;
+        width: 100%;
+        flex-direction: row;
+        justify-content: center;
+        margin-top: 25px;
+    }
+
+    .applyBtnFilterWrapper .applyButtonStyle {
+        background-color: #08084C;
+        border-radius: 100px;
+        padding: 10px 25px;
+        border: 0px;
+    }
+
+    .applyBtnFilterWrapper .applyButtonStyle span {
+        font-size: 16px;
+        line-height: 20px;
+        color: #DFEAE8;
+        font-family: 'Arvo', sans-serif;
+    }
+
+    /******* Side Filter Style End******/
+    .jobAndFiltersWrapper {
+        width: 100%;
+        padding: 10px;
+        margin: 0;
+    }
+
+    .infiniteJobBoard {
+        width: 100%;
+    }
+
+    .userMargin {
+        margin-left: 0;
+        margin-bottom: 64px;
+        padding-top: 0px;
+    }
+
+    .userHeaderWrapper {
+        height: 70px;
+    }
+
+    .userHeaderWrapper .headerWrapperInner .navbar-brand img {
+        max-height: 38px;
+        max-width: 38px;
+    }
+
+    .userHeaderWrapper .headerWrapperInner .navbar-brand {
+        padding: 0px;
+        margin-right: 0px;
+        margin-left: 8px;
+        align-self: center;
+        display: flex;
+    }
+
+    .resProfile {
+        display: flex;
+        background: #1D1E5C;
+        border-radius: 100px;
+        height: 40px;
+        width: 40px;
+        justify-content: center;
+        align-items: center;
+
+    }
+
+    .resProfile img {
+        max-width: 32px;
+        max-height: 32px;
+        border-radius: 100%;
+    }
+
+    .navbar-toggler {
+        padding: 0;
+    }
+
+    .resHamburg {
+        display: flex;
+        align-self: center;
+    }
+
+    .resHamburg svg {
+        color: white;
+        font-size: 21px;
+    }
+
+    .customMargin {
+        margin: 0;
+    }
+
+    .jobSection {
+        width: 100%;
+    }
+
+    .infinite-scroll-component__outerdiv {
+        width: 100%;
+    }
+
+    .jobsBoardDisplay {
+        flex-direction: column;
+        gap: 18px;
+    }
+
+    .jobHeaderIndustryAndSkillText {
+        font-family: 'Open Sans', sans-serif;
+        font-size: 14px;
+        line-height: 20px;
+    }
+
+    .jobCardBody p {
+        line-height: 20px;
+        letter-spacing: 0px;
+    }
+
+    .jobTagLineHeight {
+        height: 57px;
+        padding: 5px;
+    }
+
+    .noOfJobOneColumn {
+        display: none
+    }
+
+    .noOfJobMainWrapper {
+        padding: 20px 10px 10px 10px;
+    }
+
+    .sortRow {
+        display: flex;
+        flex-direction: row;
+        gap: 15px;
+    }
+
+    .totalNoOfRoleText {
+        padding-top: 15px;
+        padding-bottom: 10px;
+    }
+
+    .jobCategoryContainer input:checked+label {
+        padding: 0px 5px 0px 5px;
+    }
+}
+
+@media only screen and (max-width: 400px) {
+    .sortMainWrapper {
+        gap: 5px;
+    }
+
+    .sortRow {
+        gap: 2px;
+    }
+}
+
+.noPaddingMargin {
+    padding: 0;
+    margin: 0;
+}
+
+.marginRight10 {
+    margin-right: 10px;
+}
+
+.marginVertical20 {
+    margin: 20px 0;
+}
+
+/* job details styles */
+.backButtonCont {
+    font-size: 14px;
+    color: var(--green-bg);
+    width: 38%;
+}
+
+.backButton {
+    background-color: transparent;
+    border: none;
+}
+
+.headingAlignment {
+    margin-top: 20px;
+    margin-bottom: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 62%;
+}
+
+.websiteIcon {
+    font-size: 12px;
+    color: #3C7C50;
+}
+
+.displayFlex {
+    display: flex;
+}
+
+.jobDetailContainer {
+    width: 70%;
+    margin: auto;
+    display: flex;
+}
+
+.jobDetailsSection {
+    margin-top: 0px;
+    color: #0F2B18;
+}
+
+.paddingLeft10 {
+    padding-left: 10px;
+}
+
+.marginTop10 {
+    margin-top: 10px;
+}
+
+.jobDetailsImgSection {
+    width: '15.5%';
+    flex: '0 0 15.5%';
+    max-width: '15.5%';
+    padding: 0;
+    margin: 0;
+    padding-right: 20px;
+    padding-top: 5px;
+}
+
+.marginLeft10 {
+    margin-top: 10px;
+    margin-left: 0px;
+}
+
+.jobDetail {
+    color: #090715 !important;
+    line-height: 25px;
+    font-size: 14px;
+}
+
+.jobDetail p {
+    color: var(--green-bg) !important;
+}
+
+.jobDetail strong {
+    color: #090715 !important;
+}
+
+.jobDetail span {
+    color: #090715 !important;
+}
+
+.jobDetail ul,
+.jobDetail ol {
+    padding-left: 1rem;
+}
+
+.companyImg {
+    width: 232px;
+    height: 232px;
+    object-fit: contain;
+    border-radius: 0.25rem;
+    padding: 10px;
+}
+
+.jobDescriptionSection {
+    padding: 0;
+    margin: 5px;
+    padding-top: 15px;
+}
+
+.jobApplySection {
+    padding: 0;
+    margin: 5px;
+    padding-top: 18px;
+}
+
+.applyText {
+    color: #DFEAE8;
+}
+
+.jobSubmittedBox {
+    background-color: #DFEAE8;
+    width: 100%;
+    height: 30px;
+}
+
+.jobSubmittedMsg {
+    color: #08084C;
+    font: 'Open Sans', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    text-align: center;
+    margin-top: 4px;
+}
+
+.jobDetailHeadingMobile,
+.jobDetailSubHeadingMobile {
+    display: none;
+}
+
+@media only screen and (max-width: 767px) {
+    .showElement {
+        display: none;
+    }
+    .userMargin {
+        margin-top: 0;
+    }
+    .resourceHeader {
+        position: fixed;
+        top: 0;
+        background-color: white;
+        width: 100%;
+        padding: 10px;
+        z-index: 2;
+    }
+    .jobDetail {
+        font-size: 16px;
+    }
+
+    .headingAlignment {
+        margin-top: 20px;
+        margin-bottom: 30px;
+        display: block;
+        width: 100%;
+    }
+
+    .jobSubmittedMsg {
+        margin-top: 18px;
+        padding-top: 4px;
+    }
+
+    .inlineDisplay {
+        display: inline-block;
+    }
+
+    .displayFlex {
+        display: inline-flex;
+    }
+
+    .marginLeft10 {
+        margin-left: 0px;
+        margin-top: 10px;
+    }
+
+    .marginTop30 {
+        margin-top: 30px;
+    }
+
+    .jobDetailsSection {
+        padding: 0px;
+        margin-top: 25px;
+    }
+
+    .jobDetailsImgSection {
+        width: '16%'
+    }
+
+    .jobDetailHeading {
+        font-size: 22px;
+    }
+
+    .jobDetailSubHeading {
+        font-size: 16px;
+    }
+
+    .searchBarTab {
+        width: 70%;
+    }
+}
+
+@media only screen and (max-width: 1100px) {
+    .filterWidthWrapper {
+        width: 200px;
+        margin-right: 10px;
+    }
+}
+
+@media only screen and (max-width: 844px) {
+    .jobDetailContainer {
+        width: 100%;
+    }
+
+    .filterWidthWrapper {
+        width: 125px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        margin-right: 10px;
+    }
+
+    .filterOptionVal span {
+        display: none;
+    }
+
+    .filterOptionVal .checkBoxMargin label {
+        width: 90px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+
+    .displayAllFilterVal .displayCategory .displayItem span {
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+
+    .searchBar input {
+        width: 80%;
+    }
+}
+
+@media only screen and (max-width: 650px) {
+
+    .dashboardSection .jobsBoardDisplay,
+    .resourceBoardDisplay {
+        justify-content: center;
+    }
+
+    .resourceCardData {
+        height: 100%;
+    }
+
+    .resourceBoardDisplay .jobCard {
+        height: auto;
+        padding-bottom: 20px;
+    }
+
+    .resourceCardBody div {
+        display: inherit;
+    }
+
+    .resourceCardBody img {
+        width: 269px;
+    }
+
+    .jobCardLocation {
+        border-radius: 0 4px 0 12px;
+    }
+
+    .jobCard {
+        min-width: 269px;
+    }
+
+    .jobCard .card-body {
+        padding: 0;
+        display: contents;
+    }
+
+    .jobCardHeader {
+        display: block;
+    }
+
+    .jobHeader {
+        margin: 20px 10px 0px 10px;
+    }
+
+    .jobCardTags {
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+
+    .totalNoOfRoleText {
+        display: none;
+    }
+
+    .appliedJobCard .appliedJob {
+        border-radius: 0 0 0 12px;
+    }
+
+    .appliedJob {
+        margin: 0;
+    }
+
+    .jobTagLineHeight {
+        padding: 10px;
+    }
+}
+
+@media only screen and (max-width: 1050px) and (min-width: 651px) {
+    .resourceCardData {
+        height: 100%;
+    }
+
+    .jobCard .card-body {
+        padding: 0;
+        display: contents;
+    }
+
+    .jobCardHeader {
+        display: block;
+    }
+
+    .jobHeader {
+        margin: 20px 10px 0px 10px;
+    }
+
+    .jobCardTags {
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+
+    .totalNoOfRoleText {
+        display: none;
+    }
+
+    .appliedJobCard .jobCardLocation {
+        border-radius: 0 4px 0 0px;
+    }
+
+    .appliedJobCard .appliedJob {
+        border-radius: 0 0 0 12px;
+    }
+
+    .appliedJob {
+        margin: 0;
+    }
+
+    .jobCardLocation {
+        border-radius: 0 4px 0 12px;
+    }
+
+    .jobTagLineHeight {
+        padding: 10px;
+    }
+
+    .resourceBoardDisplay .jobCard {
+        height: 318px;
+    }
+
+    .resourceCardBody div {
+        display: inherit;
+    }
+
+    .resourceCardBody img {
+        width: 269px;
+    }
+}
+
+@media only screen and (max-width: 1050px) {
+    .resourceCardBody img {
+        width: 100%;
+    }
+}
+
+@media only screen and (min-width: 1000px) and (max-width: 1400px) {
+    .headingAlignment {
+        width: 70%;
+    }
+
+    .backButtonCont {
+        width: 33%;
+    }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1000px) {
+    .headingAlignment {
+        width: 67%;
+    }
+
+    .backButtonCont {
+        width: 35%;
+    }
+}
+
+/* job details styles */
+
+/* apply job styles */
+
+.applyJobModal {
+    background-color: #0F2B18E5;
+}
+
+.applyJobModalBody {
+    padding: 20px 50px 40px;
+}
+
+.closeButton {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    color: #08084C;
+    cursor: pointer;
+}
+
+.fileDeleteIcon {
+    margin-top: -10px;
+    margin-left: 2px;
+    cursor: pointer;
+}
+
+.applyJobField {
+    margin-top: 36px !important;
+    width: 100%;
+}
+
+.uploadCV {
+    display: flex;
+    justify-content: space-between;
+    color: #0F2B18;
+}
+
+.applyJobUploadText {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 10px;
+    margin-top: 36px;
+}
+
+.applyJobSmallText {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 12px;
+    line-height: 10px;
+    margin: 0;
+}
+
+.browseButton {
+    background-color: white;
+    border: none;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    color: #1B76A9;
+    font-weight: bold;
+    line-height: 6px;
+    padding: 0px;
+    margin-top: 20px;
+    cursor: pointer;
+    max-width: 200px;
+    height: 40px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.applyButtonStyle:disabled {
+    opacity: 0.3;
+}
+
+.sendJobButton {
+    margin-top: 40px;
+    cursor: pointer;
+}
+
+.validationError {
+    margin-top: 5px;
+    font-size: 12px;
+    color: red;
+}
+
+.jobSubmittedModal {
+    width: 370px;
+    margin: 0 auto;
+}
+
+.jobBoardModal {
+    width: 485px;
+    color: #0F2B18;
+}
+
+.jobBoardModal .modal-body {
+    padding: 33px;
+}
+
+.modal-content {
+    border-radius: 12px;
+}
+
+.jobBoardModalHeading {
+    font-family: "Sofia Pro Bold", sans-serif;
+    font-size: 26px;
+    font-weight: 800;
+    line-height: 30px;
+}
+
+.jobBoardModalText {
+    margin-top: 20px;
+    font-family: "Open Sans", sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 26px;
+}
+
+.jobModalButtons {
+    display: flex;
+}
+
+.jobBoardModal button {
+    padding: 8px 30px;
+}
+
+.jobModalButtonLater {
+    background-color: white;
+    color: #0F2B18;
+}
+
+.jobModalButtonUpgrade {
+    margin-right: 15px;
+}
+
+.jobSubmittedText {
+    margin: 80px 10px;
+    color: #08084C;
+    font-size: 20px;
+    font-family: 'Arvo', sans-serif;
+    text-align: center;
+}
+
+@media only screen and (max-width: 767px) {
+    .applyJobModalBody {
+        padding: 20px 20px 30px;
+    }
+
+    .jobSubmittedModal {
+        width: 330px;
+        margin: 0 auto;
+    }
+}
+@media only screen and (max-width: 726px) {
+    .jobCard {
+        width: 100%;
+    }
+}
+@media (min-width: 576px) {
+    .cancelSubModal .modal-dialog {
+    max-width: 600px;
+}}
+
+@media only screen and (max-width: 330px) {
+    .jobSubmittedModal {
+        width: 270px;
+        margin: 0 auto;
+    }
+
+    .jobSubmittedText {
+        margin: 80px 0px;
+    }
+}
+
+/* apply job styles */
+
+/* resource detail styles */
+.userPadding {
+    padding: 50px 0;
+    width: 80%;
+}
+
+.userPadding hr {
+    margin: 20px 0;
+}
+
+.resDetBody {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.resDetBody img {
+    height: 48px;
+    width: 48px;
+    border-radius: 50%;
+    margin-right: 20px;
+}
+
+.resDetLength {
+    font-size: 16px;
+    color: #08084C;
+    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+}
+
+.resDetTitle {
+    font-size: 40px;
+    color: #0F2B18;
+    font-family: 'Sofia Pro Bold', sans-serif;
+    font-weight: 500;
+    line-height: 46px;
+    margin-right: 10px;
+    min-height: 140px;
+}
+
+.resDetPreview {
+    font-size: 20px;
+    color: #090715;
+    padding: 20px 150px;
+    text-align: center;
+}
+
+.resDetDate {
+    font-size: 14px;
+    color: #0F2B1899;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.resAuthor {
+    display: flex;
+    align-items: center;
+}
+
+.resDetImg {
+    width: 484px;
+    height: 272px;
+    object-fit: cover;
+}
+
+.resDetail {
+    color: #000000 !important;
+    line-height: 25.6px;
+    font-size: 16px;
+    padding: 30px 0 20px;
+    font-family: 'Open Sans', sans-serif;
+    width: 70%;
+    margin: auto;
+}
+
+.resDetail h2 {
+    line-height: 50px;
+    font-size: 16px;
+    font-weight: 700;
+    margin: 20px 0;
+}
+
+.resDetail h3 {
+    line-height: 40px;
+    font-size: 16px;
+    font-weight: 700;
+    margin: 15px 0;
+}
+
+.resDetail a {
+    color: #0F2B18 !important;
+    font-weight: 700;
+}
+
+.resDetail strong {
+    color: #0F2B18 !important;
+    font-weight: 600;
+}
+
+.resDetail ul,
+.resDetail ol {
+    padding-left: 1rem;
+}
+
+.resDetail li {
+    margin-bottom: 20px;
+}
+
+.resDetail ul ol li::before {
+    content: "\2022";
+    color: #0F2B18;
+    font-weight: bold;
+    display: inline-block;
+    width: 1em;
+    margin-left: -1em;
+}
+
+.resDetClap {
+    display: flex;
+    margin: auto 0;
+}
+
+.resDetClapEnd {
+    width: 70%;
+    margin: auto;
+}
+
+.dateAndAuthor {
+    padding-top: 80px;
+    padding-bottom: 40px;
+}
+
+.resDetClap img {
+    cursor: pointer;
+}
+
+.shareResource {
+    font-size: 14px;
+    font-weight: 700;
+    text-align: right;
+    color: #1B76A9;
+    margin: auto 0;
+    border: none;
+    background-color: transparent;
+    padding: 0;
+}
+
+@media only screen and (max-width: 1000px) {
+    .resDetail {
+        padding: 10px 0 20px;
+        font-size: 16px;
+        line-height: 30px;
+        width: 90%;
+    }
+
+    .resDetail h2 {
+        font-size: 22px;
+        line-height: 40px;
+    }
+
+    .resDetail h3 {
+        font-size: 20px;
+    }
+
+    .resDetClap {
+        padding: 0;
+    }
+
+    .resDetClapEnd {
+        width: 90%;
+    }
+}
+
+@media only screen and (max-width: 1000px) {
+    .resDetTitle {
+        display: flex;
+        justify-content: center;
+        min-height: 0;
+        text-align: center;
+    }
+
+    .resDetImg {
+        width: 100%;
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    .resourceContainer {
+        width: 100%;
+        padding-bottom: 70px;
+    }
+
+    .resourceImage {
+        padding: 0;
+    }
+
+    .userPadding {
+        padding: 40px 0px 20px;
+    }
+
+    .resDetLength {
+        align-self: flex-start;
+    }
+
+    .resDetTitle {
+        font-size: 26px;
+        padding: 0;
+        color: #0F2B18;
+        width: 70%;
+        margin: auto;
+        margin-bottom: 30px;
+    }
+
+    .resDetPreview {
+        font-size: 18px;
+        padding: 0;
+        text-align: left;
+    }
+
+    .resDetDate {
+        font-size: 14px;
+        color: #667085;
+        padding: 10px 0;
+        align-self: flex-start;
+    }
+
+    .resDetImg {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .dateAndAuthor {
+        width: 60%;
+        margin: auto;
+        padding-top: 20px;
+    }
+
+    .resAuthor {
+        padding-top: 20px;
+    }
+}
+
+/* resource detail styles */
+
+/* featured resource styles */
+.featuredResourceImg {
+    background-repeat: no-repeat;
+    background-size: 100% 500px;
+    align-items: center;
+    padding: 60px 0;
+    border-radius: 30px;
+    margin: 20px 0 50px;
+    cursor: pointer;
+}
+
+.featuredResourceCard {
+    height: 362px;
+    width: 610px;
+    background-color: #ffffff;
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+}
+
+.featuredResourceTitle {
+    font-size: 34px;
+    color: #101828;
+    font-family: 'Arvo', sans-serif;
+    line-height: 41px;
+    margin-top: 10px;
+}
+
+.featuredResourceDate {
+    font-size: 14px;
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    color: #667085;
+}
+
+.previewText {
+    height: 80px;
+    font-size: 16px;
+}
+
+@media only screen and (max-width: 767px) {
+    .featuredResourceImg {
+        background-size: 100% 280px;
+        border-radius: 15px;
+        margin: 40px 0 30px;
+        padding: 175px 16px 0;
+    }
+
+    .featuredResourceCard {
+        height: 350px;
+        width: 100%;
+        padding: 16px;
+        border: 1px solid #DFEAE8;
+        float: left;
+        margin-top: -40px;
+        margin-bottom: 20px;
+    }
+
+    .featuredResourceTitle {
+        font-size: 18px;
+        line-height: 30px;
+        z-index: 10;
+    }
+
+    .previewText {
+        height: 150px;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .companyImg {
+        width: 100%;
+        height: auto;
+        border-radius: 0;
+        padding: 0;
+    }
+
+    .jobDetailsImgSection {
+        padding-right: 0;
+    }
+
+    .locAndLink {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .linksAndApply {
+        display: flex;
+        justify-content: space-between;
+        margin-right: 10px;
+    }
+
+    .jobDetailsImgSection .applyButtonStyle {
+        margin-top: 0;
+        min-width: 138px;
+        height: 50px;
+    }
+
+    .headingAlignment {
+        margin: 0;
+        padding: 10px;
+    }
+
+    .jobDetailApplied {
+        margin-top: 0;
+    }
+
+    .jobDetailCompany {
+        display: none;
+    }
+
+    .jobDetailSubHeading {
+        display: none;
+    }
+
+    .jobDetailHeadingMobile,
+    .jobDetailSubHeadingMobile {
+        display: block;
+        text-align: center;
+    }
+
+    .resourceContainer {
+        padding-top: 40px;
+    }
+
+    .dateAndAuthor {
+        width: 100%;
+        padding-top: 5px;
+        padding-bottom: 15px;
+    }
+
+    .relatedResourceNav {
+        display: none;
+    }
+
+    .jobBoardModal {
+        width: auto;
+    }
+}
+@media only screen and (max-width: 420px) {
+    .jobModalButtons {
+        flex-direction: column;
+    }
+    .jobModalButtonUpgrade {
+        margin: 0;
+    }
+}
+
+/* featured resource styles */

@@ -1,0 +1,716 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: >
+  Launches AWS Fargate resources and then spins or updates containers in them.
+  Networking resources have been referenced from an already-created stack (in the same region) with help of 'ImportValue'.
+Parameters:
+  Environment:
+    Type: String
+    AllowedValues:
+      - "development"
+      - "quality"
+      - "staging"
+      - "production"
+  ProjectName:
+    Type: String
+    Description: Provide ProjectName which should be same as Name in VPC .       
+  WebImageUri:
+    Type: String
+    Description: Provide ECR URI of the WebApp. Please append the image's tag at the end of this URL.
+  ApiImageUri:
+    Type: String
+    Description: Provide ECR URI of the WebApp. Please append the image's tag at the end of this URL.        
+  HostedZoneId:
+    Type: String
+    Description: Provide Hosted Zone ID for Domain.      
+  WebAppDNSUrl:
+    Type: String
+    Description: Provide Dev webURL.  
+  WebApiDNSUrl:
+    Type: String
+    Description: Provide Dev webURL.  
+
+  DomainName:
+    Type: String
+    Description: Provide Domain for certificaets.        
+
+Conditions:
+  IsDevelopment: !Equals [!Ref Environment, "development"]
+  IsQuality: !Equals [!Ref Environment, "quality"]
+  IsStaging: !Equals [!Ref Environment, "staging"]
+  IsProduction: !Equals [!Ref Environment, "production"]
+Resources:
+#################################################################################
+#---------------------- SSL CERTIFICATES #----------------------------------------
+#------Development------#
+  DevLBSSLCertificate: 
+    Type: "AWS::CertificateManager::Certificate"
+    Condition: IsDevelopment     
+    Properties: 
+      DomainName: !Join [".", ["*.dev", !Ref DomainName]]
+      DomainValidationOptions:
+            - DomainName: !Join [".", ["*.dev", !Ref DomainName]] 
+              HostedZoneId: !Ref HostedZoneId       
+      ValidationMethod: DNS
+#------QUALITY------#
+  QualityLBSSLCertificate: 
+    Type: "AWS::CertificateManager::Certificate"
+    Condition: IsQuality     
+    Properties: 
+      DomainName: !Join [".", ["*.q", !Ref DomainName]]          
+      DomainValidationOptions:
+            - DomainName: !Join [".", ["*.q", !Ref DomainName]] 
+              HostedZoneId: !Ref HostedZoneId       
+      ValidationMethod: DNS      
+#------STAGING------#
+  StagingLBSSLCertificate: 
+    Type: "AWS::CertificateManager::Certificate"
+    Condition: IsStaging     
+    Properties: 
+      DomainName: !Join [".", ["*.s", !Ref DomainName]]     
+      DomainValidationOptions:
+            - DomainName: !Join [".", ["*.s", !Ref DomainName]] 
+              HostedZoneId: !Ref HostedZoneId       
+      ValidationMethod: DNS   
+#------Production------#
+  ProductionLBSSLCertificate: 
+    Type: "AWS::CertificateManager::Certificate"
+    Condition: IsProduction     
+    Properties: 
+      DomainName: !Join [".", ["*", !Ref DomainName]]     
+      DomainValidationOptions:
+            - DomainName: !Join [".", ["*", !Ref DomainName]]  
+              HostedZoneId: !Ref HostedZoneId       
+      ValidationMethod: DNS        
+#-------------------- ElasticLoad Balancing Section ]#---------------------------
+  Alb:
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+    Properties:
+      Scheme: "internet-facing"
+      IpAddressType: "ipv4"
+      Subnets:
+        - Fn::ImportValue:
+            !Join ["-", [!Ref ProjectName, PrivateSubnetA]]
+        - Fn::ImportValue:
+            !Join ["-", [!Ref ProjectName, PrivateSubnetB]]
+      SecurityGroups:
+        - !Ref AlbSecurityGroup
+  AlbSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: "Security group for ALB"
+      VpcId:
+        Fn::ImportValue:
+          !Join ["-", [!Ref ProjectName, VPC]]
+      SecurityGroupIngress: # Hint: inbound rules
+        - Description: "Port 80 allowed from anywhere"
+          IpProtocol: "tcp"
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+        - Description: "Port 443 allowed from anywhere"
+          IpProtocol: "tcp"
+          FromPort: 443
+          ToPort: 443
+          CidrIp: 0.0.0.0/0
+        - Description: "Port 22 allowed from PK office"
+          IpProtocol: "tcp"
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 182.191.92.49/32
+  HttpListener:
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Properties:
+      LoadBalancerArn: !Ref Alb
+      Protocol: "HTTP"
+      Port: 80
+      DefaultActions:
+        - Type: "redirect"
+          RedirectConfig:
+            Protocol: "HTTPS"
+            Port: 443
+            StatusCode: "HTTP_301"
+  LogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      RetentionInDays: 14
+  Secret:
+    Type: AWS::SecretsManager::Secret
+    Properties: {}
+#-------------------- HTTPS WEB Listeners ]#--------------------------------------
+#### Development HTTPS Listner
+  HttpsListenerDev:
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Condition: IsDevelopment    
+    Properties:
+      LoadBalancerArn: !Ref Alb
+      Protocol: "HTTPS"
+      Port: 443
+      Certificates:
+        - CertificateArn: !Ref DevLBSSLCertificate
+      DefaultActions:
+        - Type: forward
+          TargetGroupArn: !Ref WebTG
+          Order: 1        
+    DependsOn: DevLBSSLCertificate          
+#### Quality  HTTPS Listner
+  HttpsListenerQuality:
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Condition: IsQuality    
+    Properties:
+      LoadBalancerArn: !Ref Alb
+      Protocol: "HTTPS"
+      Port: 443
+      Certificates:
+        - CertificateArn: !Ref QualityLBSSLCertificate
+      DefaultActions:
+        - Type: forward
+          TargetGroupArn: !Ref WebTG
+          Order: 1
+    DependsOn: QualityLBSSLCertificate          
+#### Staging  HTTPS Listner
+  HttpsListenerStaging:
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Condition: IsStaging    
+    Properties:
+      LoadBalancerArn: !Ref Alb
+      Protocol: "HTTPS"
+      Port: 443
+      Certificates:
+        - CertificateArn: !Ref StagingLBSSLCertificate
+      DefaultActions:
+        - Type: forward
+          TargetGroupArn: !Ref WebTG
+          Order: 1
+    DependsOn: StagingLBSSLCertificate          
+#### Production HTTPS Listner
+  HttpsListenerProduction:
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Condition: IsProduction    
+    Properties:
+      LoadBalancerArn: !Ref Alb
+      Protocol: "HTTPS"
+      Port: 443
+      Certificates:
+        - CertificateArn: !Ref ProductionLBSSLCertificate
+      DefaultActions:
+        - Type: forward
+          TargetGroupArn: !Ref WebTG
+          Order: 1
+    DependsOn: ProductionLBSSLCertificate          
+#-------------------------EXECUTION ROLE #-----------------------------------------    
+  ECSTaskExecutionRole:
+    Type: AWS::IAM::Role
+    # DeletionPolicy: Retain    
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service: [ecs-tasks.amazonaws.com]
+          Action: ['sts:AssumeRole']
+      Path: /
+      Policies:
+        - PolicyName: AmazonECSTaskExecutionRolePolicy
+          PolicyDocument:
+            Statement:
+            - Effect: Allow
+              Action:
+                # ECS Tasks to download images from ECR
+                - 'ecr:GetAuthorizationToken'
+                - 'ecr:BatchCheckLayerAvailability'
+                - 'ecr:GetDownloadUrlForLayer'
+                - 'ecr:BatchGetImage'
+                # ECS tasks to upload logs to CloudWatch
+                - 'logs:CreateLogStream'
+                - 'logs:PutLogEvents'
+              Resource: '*'
+#Allow S3 bucket environment variable for fargate cluster 
+        - PolicyName: AllowS3bucketEnviromentVariable
+          PolicyDocument:
+            Statement:
+            - Effect: Allow
+              Action: 's3:GetObject'
+              Resource: '*'
+              # Resource:
+              #   - 'arn:aws:s3:::eagles-pipeline/dev.env'
+              #   - 'arn:aws:s3:::eagles-pipeline/quality.env'
+              #   - 'arn:aws:s3:::eagles-pipeline/staging.env'
+              #   - 'arn:aws:s3:::eagles-pipeline/production.env'                                
+            - Effect: Allow
+              Action: 's3:GetBucketLocation'
+              Resource: '*'              
+              # Resource: arn:aws:s3:::eagles-pipeline 
+#------------------ Route53 DNS Section #-----------------------------------------
+#-----[ DNS for Development ]-------#
+  DnsRecordWebDev:
+    Type: AWS::Route53::RecordSet
+    Condition: IsDevelopment
+    Properties:
+      HostedZoneId: !Ref HostedZoneId          
+      Name: !Ref WebAppDNSUrl   
+      Type: CNAME
+      ResourceRecords:
+        - !GetAtt Alb.DNSName # DNS of load balancer
+      TTL: 300
+  DnsRecordWebApiDev:
+    Type: AWS::Route53::RecordSet
+    Condition: IsDevelopment
+    Properties:
+      HostedZoneId: !Ref HostedZoneId          
+      Name: !Ref WebApiDNSUrl   
+      Type: CNAME
+      ResourceRecords:
+        - !GetAtt Alb.DNSName # DNS of load balancer
+      TTL: 300
+
+#--------[ DNS for Quality ]--------#
+  DnsRecordWebQuality:
+    Type: AWS::Route53::RecordSet
+    Condition: IsQuality
+    Properties:
+      HostedZoneId: !Ref HostedZoneId    
+      Name: !Ref WebAppDNSUrl         
+      Type: CNAME
+      ResourceRecords:
+        - !GetAtt Alb.DNSName # DNS of load balancer
+      TTL: 300
+  DnsRecordWebApiQuality:
+    Type: AWS::Route53::RecordSet
+    Condition: IsQuality
+    Properties:
+      HostedZoneId: !Ref HostedZoneId    
+      Name: !Ref WebApiDNSUrl         
+      Type: CNAME
+      ResourceRecords:
+        - !GetAtt Alb.DNSName # DNS of load balancer
+      TTL: 300
+#--------[ DNS for Staging ]--------#
+  DnsRecordWebStaging:
+    Type: AWS::Route53::RecordSet
+    Condition: IsStaging
+    Properties:
+      HostedZoneId: !Ref HostedZoneId       
+      Name: !Ref WebAppDNSUrl         
+      Type: CNAME
+      ResourceRecords:
+        - !GetAtt Alb.DNSName # DNS of load balancer
+      TTL: 300
+  DnsRecordWebApiStaging:
+    Type: AWS::Route53::RecordSet
+    Condition: IsStaging
+    Properties:
+      HostedZoneId: !Ref HostedZoneId       
+      Name: !Ref WebApiDNSUrl         
+      Type: CNAME
+      ResourceRecords:
+        - !GetAtt Alb.DNSName # DNS of load balancer
+      TTL: 300
+#------ [ DNS for Production ]------#
+  DnsRecordWebProduction:
+    Type: AWS::Route53::RecordSet
+    Condition: IsProduction
+    Properties:
+      HostedZoneId: !Ref HostedZoneId       
+      Name: !Ref WebAppDNSUrl         
+      Type: CNAME
+      ResourceRecords:
+        - !GetAtt Alb.DNSName # DNS of load balancer
+      TTL: 300
+  DnsRecordWebApiProduction:
+    Type: AWS::Route53::RecordSet
+    Condition: IsProduction
+    Properties:
+      HostedZoneId: !Ref HostedZoneId       
+      Name: !Ref WebApiDNSUrl         
+      Type: CNAME
+      ResourceRecords:
+        - !GetAtt Alb.DNSName # DNS of load balancer
+      TTL: 300
+################[ Fargate Cluster Section ]######################################
+  FargateCluster:
+    Type: AWS::ECS::Cluster
+    Properties:
+      CapacityProviders:
+        - FARGATE
+        - FARGATE_SPOT
+      DefaultCapacityProviderStrategy:
+        - Base: 0
+          CapacityProvider: FARGATE
+          Weight: 1
+        - Base: 0
+          CapacityProvider: FARGATE_SPOT
+          Weight: 1
+      ClusterSettings:
+        - Name: containerInsights
+          Value: enabled
+#################################################################################
+
+
+################[ WEB APP Task Definition-WebApp Section ]######################
+  TaskDefinitionWeb:
+    Type: AWS::ECS::TaskDefinition
+    Properties:
+      RequiresCompatibilities:
+        - "FARGATE"
+      NetworkMode: "awsvpc"
+      # ExecutionRoleArn: "arn:aws:iam::170544113451:role/eagles-vpc-ECSTaskExecutionRole-XC5SZOO3TIFD"
+      ExecutionRoleArn: !GetAtt 'ECSTaskExecutionRole.Arn'
+      Memory: 512 # 0.5 GB, 50% of 1GB
+      Cpu: 256 # 0.25 vCPU, 25% of 1vCPU
+      ContainerDefinitions:
+        - Name: "WebContainer"
+          Image: !Ref WebImageUri
+          PortMappings:
+            - Protocol: "tcp"
+              ContainerPort: 80
+              HostPort: 80
+            - Protocol: "tcp"
+              ContainerPort: 22
+              HostPort: 22
+          LogConfiguration:
+            LogDriver: "awslogs"
+            Options:
+              awslogs-group: !Ref LogGroup
+              awslogs-region: !Ref AWS::Region # get the current region
+              awslogs-stream-prefix:
+                !Join ["-", [!Ref ProjectName, "ecs_"]]              
+                # !Join ["-", [!FindInMap [Projects, Project, Name], "ecs_"]]
+  ServiceWeb:
+    Type: AWS::ECS::Service
+    Properties:
+      LaunchType: "FARGATE"
+      TaskDefinition: !Ref TaskDefinitionWeb
+      PlatformVersion: "LATEST"
+      Cluster: !Ref FargateCluster
+      SchedulingStrategy: "REPLICA" # value of interest, to look for, while updating the service
+      DesiredCount: 1 # value of interest, to look for, while updating the service
+      DeploymentConfiguration: # value of interest, to look for, while updating the service
+        #DeploymentCircuitBreaker:
+        #  Enable: true
+        #  Rollback: true
+        MaximumPercent: 100
+        MinimumHealthyPercent: 0
+      DeploymentController: # value of interest, to look for, while updating the service
+        Type: "ECS" # rolling update
+      NetworkConfiguration:
+        AwsvpcConfiguration:
+          Subnets:
+            - Fn::ImportValue:
+                !Join [
+                  "-",
+                 [!Ref ProjectName, PrivateSubnetA],
+                ]
+            - Fn::ImportValue:
+                !Join [
+                  "-",
+                  [!Ref ProjectName, PrivateSubnetB],
+                ]
+          SecurityGroups:
+            - !Ref ServiceSecurityGroup
+          AssignPublicIp: "ENABLED"
+      HealthCheckGracePeriodSeconds: 5
+      LoadBalancers:
+        - TargetGroupArn: !Ref WebTG
+          ContainerName: "WebContainer" # !GetAtt TaskDefinitionWeb.ContainerDefinitions.Name
+          ContainerPort: 80 # !GetAtt TaskDefinitionWeb.ContainerDefinitions.PortMappings.ContainerPort
+    DependsOn:
+      - HttpListener
+      - HttpsListenerProduction
+      - ListenerRuleWebProduction
+      - ListenerRuleApiProduction
+  ServiceSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: "Security group for ECS"
+      VpcId:
+        Fn::ImportValue:
+          !Join ["-", [!Ref ProjectName, VPC]]
+      SecurityGroupIngress:
+        - Description: "Inbound rules"
+          IpProtocol: "tcp"
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+#######################[ WebAppListener Rules ]#################################  
+## ListenerRuleWeb for Development                             
+  ListenerRuleWeb:
+    Type: AWS::ElasticLoadBalancingV2::ListenerRule
+    Condition: IsDevelopment
+    Properties:
+      Priority: 1
+      ListenerArn: !Ref HttpsListenerDev
+      Conditions:
+        - Field: "host-header"
+          Values: 
+              - !Ref WebAppDNSUrl
+      Actions:
+        - Type: forward
+          TargetGroupArn: !Ref WebTG
+          Order: 1
+    # DependsOn: HttpsListenerDev         
+## ListenerRuleWeb for Quality 
+  ListenerRuleWebQuality:
+    Type: AWS::ElasticLoadBalancingV2::ListenerRule
+    Condition: IsQuality
+    Properties:
+      Priority: 1
+      ListenerArn: !Ref HttpsListenerQuality
+      Conditions:
+        - Field: "host-header"
+          Values: 
+              - !Ref WebAppDNSUrl          
+      Actions:
+        - Type: forward
+          TargetGroupArn: !Ref WebTG
+          Order: 1
+## ListenerRuleWeb for staging
+  ListenerRuleWebStaging:
+    Type: AWS::ElasticLoadBalancingV2::ListenerRule
+    Condition: IsStaging
+    Properties:
+      Priority: 1
+      ListenerArn: !Ref HttpsListenerStaging
+      Conditions:
+        - Field: "host-header"
+          Values:
+              - !Ref WebAppDNSUrl          
+      Actions:
+        - Type: forward
+          TargetGroupArn: !Ref WebTG
+          Order: 1
+## ListenerRuleWeb for Production
+  ListenerRuleWebProduction:
+    Type: AWS::ElasticLoadBalancingV2::ListenerRule
+    Condition: IsProduction
+    Properties:
+      Priority: 1
+      ListenerArn: !Ref HttpsListenerProduction
+      Conditions:
+        - Field: "host-header"
+          Values: 
+              - !Ref WebAppDNSUrl          
+      Actions:
+        - Type: forward
+          TargetGroupArn: !Ref WebTG
+          Order: 1
+#######################[ Web Target Groups ]########################################
+  WebTG:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      TargetType: "ip"
+      Protocol: "HTTP"
+      Port: 80
+      VpcId:
+        Fn::ImportValue:
+          !Join ["-", [!Ref ProjectName, VPC]]
+      HealthCheckProtocol: "HTTP"
+      HealthCheckPath: "/health"
+      HealthCheckPort: "traffic-port"
+      HealthyThresholdCount: 3
+      UnhealthyThresholdCount: 5
+      HealthCheckTimeoutSeconds: 10
+      HealthCheckIntervalSeconds: 30
+      Matcher:
+        HttpCode: 200,301,404
+
+################[ API Task Definition-WebApi Section ]#############################
+  TaskDefinitionWebApi:
+    Type: AWS::ECS::TaskDefinition
+    Properties:
+      RequiresCompatibilities:
+        - "FARGATE"
+      NetworkMode: "awsvpc"
+      # ExecutionRoleArn: "arn:aws:iam::170544113451:role/eagles-vpc-ECSTaskExecutionRole-XC5SZOO3TIFD"
+      ExecutionRoleArn: !GetAtt 'ECSTaskExecutionRole.Arn'
+      Memory: 512 # 0.5 GB, 50% of 1GB
+      Cpu: 256 # 0.25 vCPU, 25% of 1vCPU
+      ContainerDefinitions:
+        - Name: "ApiContainer"
+          Image: !Ref ApiImageUri
+          PortMappings:
+            - Protocol: "tcp"
+              ContainerPort: 80
+              HostPort: 80
+            - Protocol: "tcp"
+              ContainerPort: 22
+              HostPort: 22
+          LogConfiguration:
+            LogDriver: "awslogs"
+            Options:
+              awslogs-group: !Ref LogGroup
+              awslogs-region: !Ref AWS::Region # get the current region
+              awslogs-stream-prefix:
+                !Join ["-", [!Ref ProjectName, "ecs_"]]              
+                # !Join ["-", [!FindInMap [Projects, Project, Name], "ecs_"]]
+  ServiceWebApi:
+    Type: AWS::ECS::Service
+    Properties:
+      LaunchType: "FARGATE"
+      TaskDefinition: !Ref TaskDefinitionWebApi
+      PlatformVersion: "LATEST"
+      Cluster: !Ref FargateCluster
+      SchedulingStrategy: "REPLICA" # value of interest, to look for, while updating the service
+      DesiredCount: 1 # value of interest, to look for, while updating the service
+      DeploymentConfiguration: # value of interest, to look for, while updating the service
+        #DeploymentCircuitBreaker:
+        #  Enable: true
+        #  Rollback: true
+        MaximumPercent: 100
+        MinimumHealthyPercent: 0
+      DeploymentController: # value of interest, to look for, while updating the service
+        Type: "ECS" # rolling update
+      NetworkConfiguration:
+        AwsvpcConfiguration:
+          Subnets:
+            - Fn::ImportValue:
+                !Join [
+                  "-",
+                 [!Ref ProjectName, PrivateSubnetA],
+                ]
+            - Fn::ImportValue:
+                !Join [
+                  "-",
+                  [!Ref ProjectName, PrivateSubnetB],
+                ]
+          SecurityGroups:
+            - !Ref ApiServiceSecurityGroup
+          AssignPublicIp: "ENABLED"
+      HealthCheckGracePeriodSeconds: 5
+      LoadBalancers:
+        - TargetGroupArn: !Ref ApiTG
+          ContainerName: "ApiContainer" # !GetAtt TaskDefinitionWebApi.ContainerDefinitions.Name
+          ContainerPort: 80 # !GetAtt TaskDefinitionWebApi.ContainerDefinitions.PortMappings.ContainerPort
+    DependsOn:
+      - HttpListener
+      - HttpsListenerProduction
+      - ListenerRuleWebProduction
+      - ListenerRuleApiProduction
+  ApiServiceSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: "Security group for ECS"
+      VpcId:
+        Fn::ImportValue:
+          !Join ["-", [!Ref ProjectName, VPC]]
+      SecurityGroupIngress:
+        - Description: "Inbound rules"
+          IpProtocol: "tcp"
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+#######################[ Web Api Listener Rules ]##################################  
+## ListenerRuleApi for Development                             
+  ListenerRuleApi:
+    Type: AWS::ElasticLoadBalancingV2::ListenerRule
+    Condition: IsDevelopment
+    Properties:
+      Priority: 2
+      ListenerArn: !Ref HttpsListenerDev
+      Conditions:
+        - Field: "host-header"
+          Values: 
+              - !Ref WebApiDNSUrl
+      Actions:
+        - Type: forward
+          TargetGroupArn: !Ref ApiTG
+          Order: 2
+    # DependsOn: HttpsListenerDev         
+## ListenerRuleApi for Quality 
+  ListenerRuleApiQuality:
+    Type: AWS::ElasticLoadBalancingV2::ListenerRule
+    Condition: IsQuality
+    Properties:
+      Priority: 2
+      ListenerArn: !Ref HttpsListenerQuality
+      Conditions:
+        - Field: "host-header"
+          Values: 
+              - !Ref WebApiDNSUrl          
+      Actions:
+        - Type: forward
+          TargetGroupArn: !Ref ApiTG
+          Order: 2
+## ListenerRuleApi for staging
+  ListenerRuleApiStaging:
+    Type: AWS::ElasticLoadBalancingV2::ListenerRule
+    Condition: IsStaging
+    Properties:
+      Priority: 2
+      ListenerArn: !Ref HttpsListenerStaging
+      Conditions:
+        - Field: "host-header"
+          Values:
+              - !Ref WebApiDNSUrl          
+      Actions:
+        - Type: forward
+          TargetGroupArn: !Ref ApiTG
+          Order: 2
+## ListenerRuleApi for Production
+  ListenerRuleApiProduction:
+    Type: AWS::ElasticLoadBalancingV2::ListenerRule
+    Condition: IsProduction
+    Properties:
+      Priority: 2
+      ListenerArn: !Ref HttpsListenerProduction
+      Conditions:
+        - Field: "host-header"
+          Values: 
+              - !Ref WebApiDNSUrl          
+      Actions:
+        - Type: forward
+          TargetGroupArn: !Ref ApiTG
+          Order: 2
+#######################[ Api Target Groups ]#####################################
+  ApiTG:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      TargetType: "ip"
+      Protocol: "HTTP"
+      Port: 80
+      VpcId:
+        Fn::ImportValue:
+          !Join ["-", [!Ref ProjectName, VPC]]
+      HealthCheckProtocol: "HTTP"
+      HealthCheckPath: "/health"
+      HealthCheckPort: "traffic-port"
+      HealthyThresholdCount: 3
+      UnhealthyThresholdCount: 5
+      HealthCheckTimeoutSeconds: 10
+      HealthCheckIntervalSeconds: 30
+      Matcher:
+        HttpCode: 200,301,404
+
+
+################[ Fargate Cluster Output ]###################################
+Outputs:
+  Cluster:
+    Description: "Your cluster"
+    Value: !Ref FargateCluster
+  DECSTaskExecutionRole:
+    Description: ECS Task Execution Role
+    Value: !GetAtt 'ECSTaskExecutionRole.Arn'
+    Condition: IsDevelopment    
+    Export:
+      Name: !Join ['-', [!Ref ProjectName, Dev-ECSTaskExecutionRole]] 
+  QECSTaskExecutionRole:
+    Description: ECS Task Execution Role
+    Value: !GetAtt 'ECSTaskExecutionRole.Arn'
+    Condition: IsQuality    
+    Export:
+      Name: !Join ['-', [!Ref ProjectName, Quality-ECSTaskExecutionRole]] 
+  SECSTaskExecutionRole:
+    Description: ECS Task Execution Role
+    Value: !GetAtt 'ECSTaskExecutionRole.Arn'
+    Condition: IsStaging    
+    Export:
+      Name: !Join ['-', [!Ref ProjectName, Staging-ECSTaskExecutionRole]] 
+  PECSTaskExecutionRole:
+    Description: ECS Task Execution Role
+    Value: !GetAtt 'ECSTaskExecutionRole.Arn'
+    Condition: IsProduction    
+    Export:
+      Name: !Join ['-', [!Ref ProjectName, Production-ECSTaskExecutionRole]]                   
+  LoadBalancerDNS:
+    Description: "Your Application Load Balancer DNS. This can be used as A-Record in Route53"
+    Value: !GetAtt Alb.DNSName
+

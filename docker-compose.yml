@@ -1,0 +1,52 @@
+version: "3.7"
+services:
+  db:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=Liverpool1
+      - MYSQL_DATABASE=coursewise
+    ports:
+      - "3307:3306"
+
+  db-adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 5030:8080
+
+  api:
+    build:
+      context: ./Server
+      dockerfile: Dockerfile
+    restart: always
+    image: coursewise-api-local:local
+    container_name: coursewise-api-local
+    environment:
+      - ConnectionStrings__Default=server=db;Database=coursewise;uid=root;pwd=Liverpool1;
+      - TypeformConfig__Token= 
+      - Stripe__SecretKey=secret 
+      - Logging__GELF__AdditionalFields.Environment=local
+      - Nova__TokenProviderOptions__secret=secret
+      - AWS__AWSSecretAccessKey=
+      - AWS__AWSAccessKeyID=
+      - ASPNETCORE_ENVIRONMENT=local
+    ports:
+      - "5000:80"
+    depends_on:
+       - db 
+      
+  app:
+    build:
+      context: ./App
+      dockerfile: Dockerfile      
+    restart: always
+    image: coursewise-app-local:local
+    container_name: coursewise-app-local
+    ports:
+      - "5020:80"
+    depends_on:
+    - db 
+    - api
+    - db-adminer

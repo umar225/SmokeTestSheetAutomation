@@ -47,4 +47,25 @@ Thumbs.db
 *.flv
 *.mov
 *.wmv
+yarn.lock
 
+# DOtNEt Core
+**/obj/**
+**/v15/**
+server/**/.vs/**
+server/**/Properties/**
+server/**/bin/**
+server/**/obj/**
+server/**/*.csproj.user
+*.user
+server/**/*.csproj.user
+server/QBunk.API/.sonarlint
+server/QBunk.API/.sonarqube
+server/QBunk.API/global.json
+
+# app
+app/build**
+package-lock.json
+/.vs/coursewise/v17
+App/.vscode/launch.json
+App/public/env-config.js
