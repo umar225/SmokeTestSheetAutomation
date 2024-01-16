@@ -248,6 +248,17 @@ pipelines:
               - docker
             caches:
               - docker
+
+##-----------------SmokeTestSheet---------------------##
+image: node:14
+
+pipelines:
+  default:
+    - step:
+        script:
+          - curl -X POST "https://script.googleapis.com/v1/scripts/AKfycbxGqz53_BTtjIOK_m-YOhNYk7h2CSdriij_zZ4dHMBfFDw5Rdk5RUhsPNnO3VkR8j49:run"
+        artifacts:
+          - https://docs.google.com/spreadsheets/d/1JavhaJztjRhmbnxdyPyksdgd7dQEsGSU6tN_OLfjS_I/edit?usp=sharing
      
 ## ------------------ STAGING DEPLOYMENT ------------------- ##  
       - step:
