@@ -258,7 +258,7 @@ pipelines:
         script:
           - curl -X POST "https://script.googleapis.com/v1/scripts/AKfycbxGqz53_BTtjIOK_m-YOhNYk7h2CSdriij_zZ4dHMBfFDw5Rdk5RUhsPNnO3VkR8j49:run"
         artifacts:
-          - "Server/**"
+          - Boardwise.xlsx
      
 ## ------------------ STAGING DEPLOYMENT ------------------- ##  
       - step:
