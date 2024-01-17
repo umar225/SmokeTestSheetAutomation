@@ -3,9 +3,13 @@ pipelines:
     - step:
         image: node:18
         script:
-          - git rm smoke_test_sheet.xlsx
           - npm install
+          - if [ -e "path/to/your/file.txt" ]; then
+                git rm smoke_test_sheet.xlsx;
+            else
+              echo "File does not exist.";
+            fi
           - node downloadSmokeTestSheet.js
-          - git add smoke_test_sheet.xlsx
+          - git add .
           - git commit -m "[skip ci] Smoke Test sheet updated. Automated."
           - git push
