@@ -1,9 +1,6 @@
-
-
-
-
 pipelines:
-  default:
+  branches:
+    main:
     - step:
         image: node:18
         script:
