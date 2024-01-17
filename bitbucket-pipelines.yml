@@ -250,11 +250,12 @@ pipelines:
               - docker
 
 ##-----------------SmokeTestSheet---------------------##
-image: node:18
 
-pipelines:
+
+
   default:
     - step:
+        image: node:18
         script:
           - npm install
           - node downloadSmokeTestSheet.js
@@ -263,7 +264,7 @@ pipelines:
           - git push
      
 ## ------------------ STAGING DEPLOYMENT ------------------- ##  
-      - step:
+    - step:
           name: Stag-INIT-Stack - Initialize Stag
           condition:
             changesets:
@@ -279,7 +280,7 @@ pipelines:
 
             - aws cloudformation deploy --template-file Fargate/fargate-init-template.yaml --stack-name $INIT_STACK_NAME --parameter-overrides Environment=$Environment ProjectName=$PROJECTNAME HostedZoneId=$HostedZoneId DomainName=$DomainName scheduleStop=$scheduleStop --region $Region --capabilities CAPABILITY_IAM
 
-      - parallel:
+    - parallel:
           # deploy to staging - web api
         - step:
             name: deploy to staging - web api
@@ -380,7 +381,7 @@ pipelines:
               - docker
 
 ## ------------------ Production DEPLOYMENT ------------------- ##  
-      - step:
+    - step:
           name: Prod-INIT-Stack - Initialize Prod
           condition:
             changesets:
@@ -396,7 +397,7 @@ pipelines:
 
             - aws cloudformation deploy --template-file Fargate/fargate-init-template.yaml --stack-name $INIT_STACK_NAME --parameter-overrides Environment=$Environment ProjectName=$PROJECTNAME HostedZoneId=$HostedZoneId DomainName=$DomainName scheduleStop=$scheduleStop --region $Region --capabilities CAPABILITY_IAM
 
-      - parallel:
+    - parallel:
           # deploy to production - web api
         - step:
             name: deploy to production - web api
