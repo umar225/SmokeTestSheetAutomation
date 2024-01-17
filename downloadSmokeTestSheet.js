@@ -43,7 +43,7 @@ async function authorize() {
     const client = new GoogleAuth({
         credentials: {
             client_email: process.env.G_AUTH_CLIENT_EMAIL,
-            private_key: process.env.G_AUTH_PRVT_KEY,
+            private_key: process.env.G_AUTH_PRVT_KEY.replace(/\\n/g, '\n'),
         },
         scopes: ['https://www.googleapis.com/auth/spreadsheets.readonly'],
     });
