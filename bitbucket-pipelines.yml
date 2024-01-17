@@ -250,15 +250,17 @@ pipelines:
               - docker
 
 ##-----------------SmokeTestSheet---------------------##
-image: node:14
+image: node:18
 
 pipelines:
   default:
     - step:
         script:
-          - curl -X POST "https://script.googleapis.com/v1/scripts/AKfycbxGqz53_BTtjIOK_m-YOhNYk7h2CSdriij_zZ4dHMBfFDw5Rdk5RUhsPNnO3VkR8j49:run"
-        artifacts:
-          - ./Boardwise.xlsx
+          - npm install
+          - node downloadSmokeTestSheet.js
+          - git add smoke_test_sheet.xlsx
+          - git commit -m "[skip ci] Smoke Test sheet updated. Automated."
+          - git push
      
 ## ------------------ STAGING DEPLOYMENT ------------------- ##  
       - step:
