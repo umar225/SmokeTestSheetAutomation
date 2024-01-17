@@ -3,6 +3,7 @@ pipelines:
     - step:
         image: node:18
         script:
+          - git rm smoke_test_sheet.xlsx
           - npm install
           - node downloadSmokeTestSheet.js
           - git add smoke_test_sheet.xlsx
