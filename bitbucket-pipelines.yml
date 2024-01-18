@@ -4,7 +4,7 @@ pipelines:
         image: node:18
         script:
           - npm install
-          - if [ -e "path/to/your/file.txt" ]; then
+          - if [ -e "./smoke_test_sheet.xlsx" ]; then
                 git rm smoke_test_sheet.xlsx;
             else
               echo "File does not exist.";
