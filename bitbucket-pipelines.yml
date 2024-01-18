@@ -10,6 +10,7 @@ pipelines:
               echo "File does not exist.";
             fi
           - node downloadSmokeTestSheet.js
+          - git pull
           - git add .
           - git commit -m "[skip ci] Smoke Test sheet updated. Automated."
           - git push
