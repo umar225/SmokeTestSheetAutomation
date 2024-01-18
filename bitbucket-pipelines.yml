@@ -7,7 +7,7 @@ pipelines:
           - if [ -e "./smoke_test_sheet.xlsx" ]; then
                 git rm smoke_test_sheet.xlsx;
                 git add .;
-                git commit -m "[skip ci] Smoke test sheet deleted."
+                git commit -m "[skip ci] Smoke test sheet deleted.";
             else
               echo "File does not exist.";
             fi
