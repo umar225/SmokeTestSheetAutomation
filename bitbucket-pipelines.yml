@@ -1,12 +1,17 @@
 pipelines:
-  branches:
-    main:
+  default:
     - step:
         image: node:18
         script:
           - npm install
+          - if [ -e "./smoke_test_sheet.xlsx" ]; then
+                git rm smoke_test_sheet.xlsx;
+                git add .;
+                git commit -m "[skip ci] Smoke test sheet deleted.";
+            else
+              echo "File does not exist.";
+            fi
           - node downloadSmokeTestSheet.js
-          - git add smoke_test_sheet.xlsx
+          - git add .
           - git commit -m "[skip ci] Smoke Test sheet updated. Automated."
-          - git push
- 
+          - git push        
