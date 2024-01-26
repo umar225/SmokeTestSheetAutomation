@@ -14,4 +14,4 @@ pipelines:
           - node downloadSmokeTestSheet.js
           - git add .
           - git commit -m "[skip ci] Smoke Test sheet updated. Automated."
-          - git push        
+          - git push
