@@ -1,1 +1,0 @@
-add-migration.bat %1 && update-database.bat

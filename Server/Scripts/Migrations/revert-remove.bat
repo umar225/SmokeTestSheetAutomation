@@ -1,1 +1,0 @@
-revert-migration.bat %1 && remove-migration.bat
