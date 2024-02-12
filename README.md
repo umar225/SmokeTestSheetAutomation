@@ -1,31 +1,45 @@
-# Boardwise
+# Continuous Integration for Smoke Test Sheet
 
-### Product Overview ###
+## Description
 
-Boardwise is a platform for non-executive directors to connect, train and find board opportunities to advance their career.
-System is divided in 2 main components [**Web App**](https://bitbucket.org/Together/coursewise/src/master/App/) and [**API**](https://bitbucket.org/Together/coursewise/src/master/Server/).
+This project automates the process of updating the smoke test sheet used for testing purposes by integrating it with CI/CD pipelines. The smoke test sheet is regularly synchronized with the latest data from a Google Sheet, ensuring that the testing process remains up-to-date and aligned with the development cycle.
 
-### Run Both (App and Api) ###
-- Make sure you have installed docker, then inside the root directory you will run `docker-compose up`, It will run app on 5020 and api on 5000 port
-- Some secrets are not avilable in API **appsettings.json**, you can contact your lead to get these secrets or get it from [s3 transformation butcket](https://s3.console.aws.amazon.com/s3/buckets/coursewise-transformation?region=eu-west-2&tab=objects) file name is appsecrets.json.
+## Files
 
-### System Diagram ###
-All diagrams or media in this folder [**media**](https://bitbucket.org/Together/coursewise/src/master/Media/).
-!["system diagram"](./Media/Flow%20Diagrams/Coursewise%20-%20Architecture%20Diagram%20-%20v4.drawio.png)
+1. **downloadSmokeTestSheet.js:**
+   - This Node.js script is responsible for downloading the latest data from a specified Google Sheet and saving it as an Excel file (`smoke_test_sheet.xlsx`).
 
-### Business Model Change ###
-In the begining of this product was a courses marketplace and the name was also coursewise but is the second half of 2023 business model was changed and it became a platform for non-executive directors to connect, train and find board opportunities to advance their career. Also the name of product was updated to boardwise.
+2. **bitbucket-pipelines.yml:**
+   - This YAML file defines the Bitbucket Pipelines configuration, orchestrating the CI/CD process for updating the smoke test sheet.
+   - It includes steps for installing dependencies, checking the existence of the existing smoke test sheet, downloading the latest data, and committing the changes back to the repository.
 
-### v1 branch ###
-The [**v1 branch**](https://bitbucket.org/Together/coursewise/src/v1/) contains the code for coursewise. We excluded coursewise code from master branch.
+## Prerequisites
 
-### Future of the project decided in Dec 2023 ###
-In Dec 2023 development was put on hold. The plan was to resume the development with the implementation of Linkedin automation imitating the Phantom Buster i-e sending connection requests and messages.
+- Node.js installed on your machine.
+- Bitbucket repository configured with Pipelines enabled.
+- Google Cloud project with the Google Sheets API enabled.
+- Service account credentials (JSON file) with appropriate permissions to access the Google Sheet.
 
-### Proposal Document ###
-[**Google Recaptcha v2 Proposal document**](https://theventurestudio.jira.com/wiki/spaces/CMD/pages/4058185733/Proposal+document+-+Recaptcha+implementation)
+## Configuration
 
-### Dependency Scanner Analysis ###
-[**Dependency Scanner Issues Analysis**](https://docs.google.com/spreadsheets/d/1UY4S7xfOGD9U-DE2p-c4j4CFkEdTAsAxmiNb73LRK3c/edit#gid=0)
-### Developers ###
-Specific components details available in App and Server folders.
+1. Obtain a service account key file (JSON) from the Google Cloud Console and save it securely.
+2. Set up environment variables in your Bitbucket repository for:
+   - `SPREADSHEET_ID`: The ID of the Google Sheet to sync with.
+   - `G_AUTH_CLIENT_EMAIL`: Client email from the service account key file.
+   - `G_AUTH_PRVT_KEY`: Private key from the service account key file.
+
+## Usage
+
+1. Ensure your Google Sheet is shared with the service account email.
+2. Push changes to your Bitbucket repository.
+3. Bitbucket Pipelines will automatically trigger the CI/CD process defined in `bitbucket-pipelines.yml`, updating the smoke test sheet accordingly.
+
+## Contributing
+
+Contributions are welcome! Please follow these steps:
+1. Fork the repository.
+2. Create a new branch (`git checkout -b feature`).
+3. Make your changes.
+4. Commit your changes (`git commit -am 'Added feature'`).
+5. Push to the branch (`git push origin feature`).
+6. Create a new Pull Request.
